@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { GITHUB_URL, SITE_AUTHOR, withBase } from '../consts';
+---
+<BaseLayout title="关于" description="关于这个博客和作者">
+	<section class="mx-auto max-w-3xl px-4 py-12">
+		<h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">关于</h1>
+
+		<div class="prose prose-zinc mt-6 dark:prose-invert">
+			<p>
+				你好，我是 {SITE_AUTHOR}。这里记录我在技术、项目和日常中的一些思考。
+			</p>
+			<p>
+				这个博客使用 <a href="https://astro.build">Astro</a> 构建，通过 GitHub Pages
+				部署。文章写在 <code>src/content/blog</code> 目录下的 Markdown 文件里。
+			</p>
+			<h2>联系方式</h2>
+			<ul>
+				<li><a href={GITHUB_URL}>GitHub</a></li>
+				<li><a href={withBase('/rss.xml')}>RSS 订阅</a></li>
+			</ul>
+		</div>
+	</section>
+</BaseLayout>

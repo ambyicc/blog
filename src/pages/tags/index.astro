@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../consts';
+import { getAllTags, getPublishedPosts } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+const tags = getAllTags(posts);
+---
+<BaseLayout title="标签" description="按标签浏览文章">
+	<section class="mx-auto max-w-5xl px-4 py-12">
+		<header class="mb-8 border-b border-zinc-200 pb-6 dark:border-zinc-800">
+			<h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">标签</h1>
+			<p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">共 {tags.length} 个标签</p>
+		</header>
+
+		<ul class="flex flex-wrap gap-3">
+			{
+				tags.map(([tag, count]) => (
+					<li>
+						<a
+							href={withBase(`/tags/${encodeURIComponent(tag)}/`)}
+							class="inline-flex items-center gap-2 rounded-full border border-zinc-200 px-4 py-1.5 text-sm text-zinc-700 transition-colors hover:border-blue-400 hover:text-blue-600 dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-blue-500 dark:hover:text-blue-400"
+						>
+							{tag}
+							<span class="text-xs text-zinc-400 dark:text-zinc-500">{count}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</BaseLayout>

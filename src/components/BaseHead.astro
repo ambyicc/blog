@@ -1,0 +1,39 @@
+---
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+import { BASE_PATH, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from '../consts';
+
+interface Props {
+	title?: string;
+	description?: string;
+	type?: 'website' | 'article';
+}
+
+const { title = SITE_TITLE, description = SITE_DESCRIPTION, type = 'website' } = Astro.props;
+
+const pageTitle = title === SITE_TITLE ? SITE_TITLE : `${title} · ${SITE_TITLE}`;
+const rawPath = Astro.url.pathname;
+const path = rawPath.startsWith(BASE_PATH) ? rawPath.slice(BASE_PATH.length) : rawPath;
+const canonical = new URL(`${BASE_PATH}${path === '' ? '/' : path}`, SITE_URL);
+const rssPath = `${BASE_PATH}/rss.xml`;
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link rel="icon" type="image/svg+xml" href={`${BASE_PATH}/favicon.svg`} />
+<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={rssPath} />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content="zh_CN" />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
